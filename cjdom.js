@@ -129,6 +129,14 @@ function Java_cjdom_CJWebEnv_getInt8ArrayForObject(lib, arrayObj)
 }
 
 /**
+ * CJWebEnv: getInt16ArrayForObject().
+ */
+function Java_cjdom_CJWebEnv_getInt16ArrayForObject(lib, arrayObj)
+{
+    return arrayObj instanceof Int16Array ? arrayObj : new Int16Array(arrayObj);
+}
+
+/**
  * CJWebEnv: getFloat32ArrayForObject().
  */
 function Java_cjdom_CJWebEnv_getFloat32ArrayForObject(lib, arrayObj)
@@ -964,6 +972,7 @@ let cjdomNativeMethods = {
     Java_cjdom_CJWebEnv_getShortsArrayForTypedArrayJSImpl,
     Java_cjdom_CJWebEnv_getShortsArrayForTypedArrayJSAndChannelIndexAndCountImpl,
     Java_cjdom_CJWebEnv_getInt8ArrayForObject,
+    Java_cjdom_CJWebEnv_getInt16ArrayForObject,
     Java_cjdom_CJWebEnv_getFloat32ArrayForObject,
     Java_cjdom_CJWebEnv_getUint16ArrayForObject,
     Java_cjdom_CJWebEnv_getUint8ClampedArrayForObject,

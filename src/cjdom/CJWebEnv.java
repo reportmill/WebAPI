@@ -218,6 +218,8 @@ public class CJWebEnv extends WebEnv<JSObject> {
     {
         if (aClass == Int8Array.class)
             return getInt8ArrayForObject(arrayObject);
+        if (aClass == Int16Array.class)
+            return getInt16ArrayForObject(arrayObject);
         if (aClass == Float32Array.class)
             return getFloat32ArrayForObject(arrayObject);
         if (aClass == Uint16Array.class)
@@ -499,6 +501,11 @@ public class CJWebEnv extends WebEnv<JSObject> {
      * CJWebEnv: getInt8ArrayForObject().
      */
     private static native JSObject getInt8ArrayForObject(Object arrayObject);
+
+    /**
+     * CJWebEnv: getInt16ArrayForObject().
+     */
+    private static native JSObject getInt16ArrayForObject(Object arrayObject);
 
     /**
      * CJWebEnv: getFloat32ArrayForObject().

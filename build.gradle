@@ -39,7 +39,7 @@ publishing {
 
     publications {
         gpr(MavenPublication) {
-            artifactId 'cjdom'
+            artifactId 'webapi'
             from(components.java)
         }
     }

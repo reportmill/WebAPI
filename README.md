@@ -32,19 +32,19 @@ runtime, [download jbang](https://www.jbang.dev/download/) and run SnapCode with
 
 <img width="640" height="400" alt="SnapCode_JxBrowser" src="https://github.com/user-attachments/assets/18447094-d328-4544-b6d2-bf07e2a7983a" />
 
-This uses the JxBrowser to easily interface with Chrome. There has only been about a week of development on this and our
+This uses the JxBrowser framework to easily interface with Chrome. There has only been about a week of development on this and our
 evaluation license runs out soon. But we hope to add polish and figure out a JxBrowser licensing solution once the project
 generates more interest.
 
 ## How to use
 
-Since the WebAPI framework is a wrapper, it needs access to a real WebAPI implementation. On the desktop, this can be done
-with the [JxBrowser](https://teamdev.com/jxbrowser) library. In the browser, this can be done with [CheerpJ](https://cheerpj.com).
-This project contains an adapter for each of those environments.
+Since the WebAPI framework is a wrapper, it needs access to a real WebAPI implementation. In the browser, this can be done
+with [CheerpJ](https://cheerpj.com). On the desktop, this can be done with the [JxBrowser](https://teamdev.com/jxbrowser)
+library. This project contains an adapter for each of those environments.
 
 # Use with CheerpJ in the browser
 
-To run this library in the browser with CheerpJ, follow these steps:
+To run this library in the browser with [CheerpJ](https://cheerpj.com):
 
     - ./gradlew build
     - Copy cjdom.js and cjdom.html to build/libs dir
@@ -53,7 +53,7 @@ To run this library in the browser with CheerpJ, follow these steps:
 
 # Use with JxBrowser on the desktop
 
-To use this library on the desktop with JxBrowser:
+To use this library on the desktop with [JxBrowser](https://teamdev.com/jxbrowser):
 
     - Edit build.gradle
     - Uncomment jxbrowser dependency for platform

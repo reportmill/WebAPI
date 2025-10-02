@@ -5,7 +5,7 @@
 
 This project is a Java bridge to the JavaScript WebAPIs in the browser and on the desktop.
 
-## WebAPI instead of Swing and JavaFX
+## Leapfrog beyond Swing and JavaFX with Web APIs
 
 The perfect Java UI framework would ideally include these features:
 

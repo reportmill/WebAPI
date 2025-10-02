@@ -1,6 +1,6 @@
-# WebAPI
+# Java WebAPI
 
-This project is a Java bridge to the JavaScript WebAPIs in the browser and on the desktop.
+This project is a Java bridge to the JavaScript Web APIs in the browser and on the desktop.
 
 ## Leapfrog beyond Swing and JavaFX with Web APIs
 

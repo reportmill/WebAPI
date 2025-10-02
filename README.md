@@ -42,7 +42,7 @@ Since the WebAPI framework is a wrapper, it needs access to a real WebAPI implem
 with the [JxBrowser](https://teamdev.com/jxbrowser) library. In the browser, this can be done with [CheerpJ](https://cheerpj.com).
 This project contains an adapter for each of those environments.
 
-# Use with CheerpJ
+# Use with CheerpJ in the browser
 
 To run this library in the browser with CheerpJ, follow these steps:
 
@@ -51,7 +51,7 @@ To run this library in the browser with CheerpJ, follow these steps:
     - Run some http-server in that directory
     - Go to http://localhost:8080/cjdom.html in your browser
 
-# Use with JxBrowser
+# Use with JxBrowser on the desktop
 
 To use this library on the desktop with JxBrowser:
 

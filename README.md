@@ -2,9 +2,10 @@
 
 This project is a Java bridge to the JavaScript Web APIs in the browser and on the desktop.
 
-## Leapfrog beyond Swing and JavaFX with Web APIs
+## Let's Leapfrog beyond Swing and JavaFX with Web APIs
 
-Can Java get back in the UI game? Let's assume the ideal Java UI framework includes these features:
+Can Java get back in the UI game? The value proposition would have to be high and costs low. Let's assume the ideal
+modern Java UI framework includes these features:
 
     - Runs in the browser and on desktop
     - Leverages the familiarity and ubiqity of browser programming paradigms

@@ -24,10 +24,14 @@ is itself running on WebAPI:
 
 - Browser DOM Demos: [https://reportmill.com/SnapCode/app/#sample:DOMTests.zip](https://reportmill.com/SnapCode/app/#sample:DOMTests.zip)
 
+<img width="569" height="480" alt="DomSamples" src="https://github.com/user-attachments/assets/3b8b1790-7b6d-4039-9479-42dad2d33bef" />
+
 And to see a preliminary demo of SnapCode running on the desktop and using Chrome as the windowing, rendering and
 runtime, [download jbang](https://www.jbang.dev/download/) and run SnapCode with this simple command:
 
 - Desktop app: ```jbang snapcodejx@reportmill```
+
+<img width="640" height="400" alt="SnapCode_JxBrowser" src="https://github.com/user-attachments/assets/18447094-d328-4544-b6d2-bf07e2a7983a" />
 
 This uses the JxBrowser to easily interface with Chrome. There has only been about a week of development on this and our
 evaluation license runs out soon. But we hope to add polish and figure out a JxBrowser licensing solution once the project

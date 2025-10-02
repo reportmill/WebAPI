@@ -1,21 +1,21 @@
-
 # WebAPI
 
 This project is a Java bridge to the JavaScript WebAPIs in the browser and on the desktop.
 
 ## Leapfrog beyond Swing and JavaFX with Web APIs
 
-Can Java get back in the UI game? Let's assume the perfect Java UI framework ideally includes these features:
+Can Java get back in the UI game? Let's assume the ideal Java UI framework includes these features:
 
-    - Runs in browser and desktop
+    - Runs in the browser and on desktop
     - Leverages the familiarity and ubiqity of browser programming paradigms
     - Supports advanced features like modern graphics, audio, video, animation and 3D
     - Is interoperable with most other end user technologies and services
-    - Leverages the skills most end-user developers have and want
+    - Leverages the skills most front-end developers have and want
+    - Doesn't require years of development and millions in funding
 
 If you accept any of that, then it follows that Java UI should fundamentally be built on Web API. There is no need to
-rewrite this vast functionality, Web APIs are readily available everywhere: in the browser and on the desktop (via Chrome
-packaging). Web APIs are the new "AWT" - and Java doesn't have to play an impossible game of catch up.
+rewrite this vast functionality, Web APIs are readily available everywhere: in every browser and on the desktop via Chrome
+packaging. Web APIs are the new "AWT" - and Java doesn't have to play an impossible game of catch up.
 
 Here are some demos of Java Web API in action, running in a Java IDE [(SnapCode)](https://reportmill.com/SnapCode) that
 is itself running on WebAPI:

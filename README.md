@@ -1,13 +1,11 @@
 
 # WebAPI
 
-## Overview
-
 This project is a Java bridge to the JavaScript WebAPIs in the browser and on the desktop.
 
 ## Leapfrog beyond Swing and JavaFX with Web APIs
 
-The perfect Java UI framework would ideally include these features:
+Can Java get back in the UI game? Let's assume the perfect Java UI framework ideally includes these features:
 
     - Runs in browser and desktop
     - Leverages the familiarity and ubiqity of browser programming paradigms

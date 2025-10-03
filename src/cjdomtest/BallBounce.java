@@ -1,5 +1,6 @@
 package cjdomtest;
 import webapi.*;
+import java.util.*;
 
 /**
  * A simple app to bounce balls around page.
@@ -7,13 +8,10 @@ import webapi.*;
 public class BallBounce {
 
     // The list of balls
-    private Ball[] _balls = new Ball[MAX_BALL_COUNT];
+    private List<Ball> _balls = new ArrayList<>();
 
-    // The number of balls
-    private int _ballCount;
-
-    // The main element to hold balls
-    private HTMLElement _mainEmt;
+    // The body element
+    private HTMLElement _bodyElmt;
 
     // Whether animation is playing
     private int _playing = -1;
@@ -24,9 +22,6 @@ public class BallBounce {
     // Last add time
     private long _lastAddTime;
 
-    // Max number of balls
-    private static final int MAX_BALL_COUNT = 1000;
-
     /**
      * Constructor.
      */
@@ -34,74 +29,56 @@ public class BallBounce {
     {
         // Get document and body
         HTMLDocument doc = HTMLDocument.getDocument();
-        HTMLBodyElement body = doc.getBody();
-        body.getStyle().setCssText("margin:0;");
+        _bodyElmt = doc.getBody();
+        _bodyElmt.getStyle().setCssText("margin:0;");
 
         // Get main element and register mouse listeners
-        _mainEmt = body;
-        _mainEmt.addEventListener("mousedown", e -> mouseDown((MouseEvent) e));
-        _mainEmt.addEventListener("mousemove", e -> mouseMove((MouseEvent) e));
-        _mainEmt.addEventListener("mouseup", e -> _mouseDown = false);
+        _bodyElmt.addEventListener("mousedown", e -> mouseDown((MouseEvent) e));
+        _bodyElmt.addEventListener("mousemove", e -> mouseMove((MouseEvent) e));
+        _bodyElmt.addEventListener("mouseup", e -> _mouseDown = false);
 
         // Add Touch Listeners
-        _mainEmt.addEventListener("touchstart", e -> touchStart((TouchEvent) e));
-        _mainEmt.addEventListener("touchmove", e -> touchMove((TouchEvent) e));
-        _mainEmt.addEventListener("touchend", e -> touchEnd((TouchEvent) e));
+        _bodyElmt.addEventListener("touchstart", e -> touchStart((TouchEvent) e));
+        _bodyElmt.addEventListener("touchmove", e -> touchMove((TouchEvent) e));
+        _bodyElmt.addEventListener("touchend", e -> _mouseDown = false);
 
-        // Add button
+        // Add clear balls button
         HTMLElement clearButton = doc.createElement("button");
-        clearButton.getStyle().setCssText("position:fixed;bottom:8px;right:8px;");
-        clearButton.setInnerHTML("Clear Balls");
-        body.appendChild(clearButton);
+        clearButton.getStyle().setCssText("position:fixed; top:8px; right:8px;");
+        clearButton.setInnerText("Clear Balls");
+        clearButton.addEventListener("click", e -> clearBalls());
+        _bodyElmt.appendChild(clearButton);
 
-        // Seed some starter balls
+        // Seed starter balls
         for (int i = 0; i < 10; i++)
             addBall(30, 30);
     }
-
-    /**
-     * Returns page width.
-     */
-    public int getWidth()  { return Window.get().getInnerWidth(); }
-
-    /**
-     * Returns page height.
-     */
-    public int getHeight()  { return Window.get().getInnerHeight(); }
 
     /**
      * Add ball.
      */
     public void addBall(double aX, double aY)
     {
-        // If too many balls, just return
-        if (_ballCount >= MAX_BALL_COUNT) return;
-
         // Add ball
         Ball ball = new Ball(aX, aY);
-        _mainEmt.appendChild(ball._ballImage);
-        _balls[_ballCount++] = ball;
+        _bodyElmt.appendChild(ball._ballImage);
+        _balls.add(ball);
+        _lastAddTime = System.currentTimeMillis();
         play();
     }
 
     /**
      * Remove ball.
      */
-    public void removeBall(Ball aBall)
-    {
-        _mainEmt.removeChild(aBall._ballImage);
-    }
+    public void removeBall(Ball aBall)  { _bodyElmt.removeChild(aBall._ballImage); }
 
     /**
      * Clears balls.
      */
     public void clearBalls()
     {
-        for (int i = 0; i < _ballCount; i++) {
-            removeBall(_balls[i]);
-            _balls[i] = null;
-        }
-        _ballCount = 0;
+        _balls.forEach(this::removeBall);
+        _balls.clear();
         stop();
     }
 
@@ -111,7 +88,7 @@ public class BallBounce {
     public void play()
     {
         if (_playing >= 0) return;
-        _playing = Window.setInterval(() -> moveBalls(), 25);
+        _playing = Window.setInterval(this::moveBalls, 25);
     }
 
     /**
@@ -127,11 +104,7 @@ public class BallBounce {
     /**
      * Move balls.
      */
-    void moveBalls()
-    {
-        for (int i = 0; i < _ballCount; i++)
-            _balls[i].moveBall();
-    }
+    private void moveBalls()  { _balls.forEach(Ball::moveBall); }
 
     /**
      * Handle mouse down event.
@@ -147,27 +120,14 @@ public class BallBounce {
      */
     public void mouseDown(double aX, double aY)
     {
-        // Set MouseDown
         _mouseDown = true;
-
-        // If hit button, clear balls
-        if (aX > getWidth() - 80 && aY > getHeight() - 40)
-            clearBalls();
-
-        // Otherwise, add ball
-        else {
-            addBall(aX, aY);
-            _lastAddTime = System.currentTimeMillis();
-        }
+        addBall(aX, aY);
     }
 
     /**
      * Handle mouse move event.
      */
-    public void mouseMove(MouseEvent anEvent)
-    {
-        mouseMove(anEvent.getClientX(), anEvent.getClientY());
-    }
+    public void mouseMove(MouseEvent anEvent)  { mouseMove(anEvent.getClientX(), anEvent.getClientY()); }
 
     /**
      * Handle mouse move event.
@@ -177,16 +137,10 @@ public class BallBounce {
         // If not mouse drag, just return
         if (!_mouseDown) return;
 
-        // If over button, just return
-        if (aX > getWidth() - 80 && aY > getHeight() - 40)
-            return;
-
-        // If 100ms has passed, add ball
+        // If 100 milliseconds has passed, add ball
         long time = System.currentTimeMillis();
-        if (time > _lastAddTime + 100) {
+        if (time > _lastAddTime + 100)
             addBall(aX, aY);
-            _lastAddTime = time;
-        }
     }
 
     /**
@@ -218,38 +172,14 @@ public class BallBounce {
     }
 
     /**
-     * Called when body gets touchEnd.
-     */
-    public void touchEnd(TouchEvent anEvent)  { _mouseDown = false; }
-
-    /**
-     * Returns whether bounds contains x/y.
-     */
-    public boolean contains(double aX, double aY)
-    {
-        return (0 <= aX) && (aX <= getWidth()) && (0 <= aY) && (aY <= getHeight());
-    }
-
-    /**
-     * Returns whether bounds contains rect.
-     */
-    public boolean contains(double aX, double aY, double aW, double aH)
-    {
-        return contains(aX, aY) && contains(aX + aW, aY + aH);
-    }
-
-    /**
      * Standard main method.
      */
-    public static void main(String[] args)
-    {
-        new BallBounce();
-    }
+    public static void main(String[] args)  { new BallBounce(); }
 
     /**
      * An inner class to model ball.
      */
-    public class Ball {
+    public static class Ball {
 
         // Image for ball
         private HTMLImageElement _ballImage;
@@ -262,7 +192,7 @@ public class BallBounce {
         private double _ballVY = Math.random() * 10 - 5;
 
         // The ball rotation
-        private double _roll;
+        private int _roll;
 
         /**
          * Create Ball.
@@ -272,8 +202,8 @@ public class BallBounce {
             _ballX = aX;
             _ballY = aY;
             _ballImage = (HTMLImageElement) HTMLDocument.getDocument().createElement("img");
-            _ballImage.setSrc("http://reportmill.com/images/Ball32.png");
-            _ballImage.getStyle().setCssText("position:absolute;left:" + aX + "px;top:" + aY + "px;");
+            _ballImage.setSrc("https://reportmill.com/images/Ball32.png");
+            _ballImage.getStyle().setCssText("position:absolute; left:" + aX + "px; top:" + aY + "px;");
         }
 
         /**
@@ -286,30 +216,13 @@ public class BallBounce {
             _roll += _ballVX > 0 ? 4 : -4;
 
             // If ball hits wall, reflect velocity vector
-            if (!contains(_ballX, _ballY, 40, 40)) {
-                if (_ballX < 0) {
-                    _ballX = 0;
-                    _ballVX = -_ballVX;
-                }
-                else if (_ballX + 40 > getWidth()) {
-                    _ballX = getWidth() - 40;
-                    _ballVX = -_ballVX;
-                }
-                if (_ballY < 0) {
-                    _ballY = 0;
-                    _ballVY = -_ballVY;
-                }
-                else if (_ballY + 40 > getHeight()) {
-                    _ballY = getHeight() - 40;
-                    _ballVY = -_ballVY;
-                }
-            }
+            if (_ballX < 0 || _ballX + 40 > Window.get().getInnerWidth()) _ballVX = -_ballVX;
+            if (_ballY < 0 || _ballY + 40 > Window.get().getInnerHeight()) _ballVY = -_ballVY;
 
             // Move image
-            int rot = (int) Math.round(_roll);
-            String str = "position:absolute;left:" + _ballX + "px;top:" + _ballY + "px;";
-            str += "transform:rotate(" + rot + "deg);-webkit-transform:rotate(" + rot + "deg);";
-            _ballImage.getStyle().setCssText(str);
+            _ballImage.getStyle().setProperty("left", _ballX + "px");
+            _ballImage.getStyle().setProperty("top", _ballY + "px");
+            _ballImage.getStyle().setProperty("transform", "rotate(" + _roll + "deg)");
         }
     }
 }

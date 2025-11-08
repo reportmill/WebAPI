@@ -950,6 +950,54 @@ function getDouble()  { return _doubleStack[_doubleIndex++]; }
 function getString()  { return _stringStack[_stringIndex++]; }
 function getNative()  { return _nativeStack[_nativeIndex++]; }
 
+// Open the database
+function openDB()
+{
+    return new Promise((resolve, reject) => {
+        const request = indexedDB.open("cjFS_/files/", 1);
+        request.onsuccess = () => resolve(request.result);
+        request.onerror = () => reject(request.error);
+    });
+}
+
+// Read a record and modify a field
+async function Java_snap_web_FileSite_setLastModified(lib, filePath, newModTime)
+{
+    // Open db
+    const db = await openDB();
+
+    // Fetch file and reset mod time
+    return new Promise((resolve, reject) => {
+        const tx = db.transaction("files", "readwrite");
+        const store = tx.objectStore("files");
+
+        const getRequest = store.get(filePath);
+
+        // Handle success
+        getRequest.onsuccess = function() {
+
+            // Get file
+            const file = getRequest.result;
+            if (!file) {
+                reject("File not found: " + filePath);
+                return;
+            }
+
+            // Reset file lastModified to new mod time in seconds from given millis BigInt
+            //console.log("Last mod time for " + filePath + " is " + file.lastModified + " " + file.lastModified.constructor.name);
+            file.lastModified = Number(newModTime / 1000n);
+
+            // Save new file
+            const putRequest = store.put(file, filePath);
+            putRequest.onsuccess = () => resolve("File updated successfully");
+            putRequest.onerror = () => reject(putRequest.error);
+        };
+
+        // Handle error
+        getRequest.onerror = () => reject(getRequest.error);
+    });
+}
+
 /**
  * Constant for registering with CJ.
  */
@@ -1016,4 +1064,6 @@ let cjdomNativeMethods = {
     Java_cjdom_CJCanvasRenderingContext2D_createRadialGradientImpl,
     Java_cjdom_CJCanvasRenderingContext2D_createPatternImpl,
     Java_cjdom_CJCanvasRenderingContext2D_paintStacksImpl,
+
+    Java_snap_web_FileSite_setLastModified
 };

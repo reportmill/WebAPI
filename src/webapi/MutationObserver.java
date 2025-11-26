@@ -41,10 +41,7 @@ public class MutationObserver extends JSProxy {
     /**
      * Stops the MutationObserver instance from receiving further notifications until and unless observe() is called again.
      */
-    public void disconnect()
-    {
-        System.out.println("MutationObserver.disconnect: Not implemented");
-    }
+    public void disconnect()  { call("disconnect"); }
 
     /**
      * An interface for a MutationObserver callback.
